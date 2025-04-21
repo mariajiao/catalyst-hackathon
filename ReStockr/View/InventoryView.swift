@@ -22,9 +22,12 @@ struct InventoryView: View {
                                 .font(.headline)
                             Text("Category: \(item.category)")
                                 .font(.subheadline)
+                            Text("Days Left: \(item.runoutDays)")
+                                .font(.caption)
                             Text("Running Low: \(item.isRunningLow ? "Yes" : "No")")
                                 .foregroundColor(item.isRunningLow ? .red : .green)
                                 .font(.caption)
+                            
                         }
                         Spacer()
                         Text("Qty: \(item.quantity)")

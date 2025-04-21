@@ -36,6 +36,18 @@ class PurchaseItem {
 
     // Check if item is running low
     var isRunningLow: Bool {
-        Date() >= estimatedDepletionDate
+        Date()+2 >= estimatedDepletionDate
+        
+    }
+    
+    var runoutDays: Int {
+        if((Calendar.current.dateComponents([.day], from: Date(), to: estimatedDepletionDate).day ?? 0) > 0)
+        {
+            return (Calendar.current.dateComponents([.day], from: Date(), to: estimatedDepletionDate).day ?? 0)
+        }
+        else {
+            return 0
+        }
+            
     }
 }

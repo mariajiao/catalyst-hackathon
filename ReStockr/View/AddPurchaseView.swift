@@ -25,8 +25,6 @@ struct AddPurchaseView: View {
                 TextField("Item Name", text: $name)
                 
                 TextField("Category", text: $selectedCategory)
-                    
-
                 
                 TextField("Quantity", text: $quantity)
                     .keyboardType(.numberPad)
@@ -54,7 +52,7 @@ struct AddPurchaseView: View {
 
         let newItem = PurchaseItem(
             name: name,
-            category: selectedCategory, // Use selected category
+            category: selectedCategory,
             purchaseDate: Date(),
             estimatedUsageDays: days,
             quantity: qty,
