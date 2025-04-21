@@ -29,22 +29,9 @@
 		52321FAC2D6974C60053BC24 /* ReStockrUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReStockrUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		52321FB42D6974C60053BC24 /* Exceptions for "ReStockr" folder in "ReStockr" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 52321F8D2D6974C50053BC24 /* ReStockr */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		52321F902D6974C50053BC24 /* ReStockr */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				52321FB42D6974C60053BC24 /* Exceptions for "ReStockr" folder in "ReStockr" target */,
-			);
 			path = ReStockr;
 			sourceTree = "<group>";
 		};
