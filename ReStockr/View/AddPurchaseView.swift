@@ -63,9 +63,24 @@ struct AddPurchaseView: View {
             context.insert(newItem) // inserting into SwiftData
         }
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            if let csvURL = exportToCSV(purchases: fetchAllPurchases(using: context)) {
+                ModelSyncManager.uploadCSVAndDownloadModel(csvURL: csvURL)
+            }
+        }
+
+
+        
         dismiss()
     }
 }
+
+func fetchAllPurchases(using context: ModelContext) -> [PurchaseItem] {
+    let descriptor = FetchDescriptor<PurchaseItem>(sortBy: [SortDescriptor(\.purchaseDate)])
+    return (try? context.fetch(descriptor)) ?? []
+}
+
+
 
 #Preview {
     NavigationStack {

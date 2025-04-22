@@ -14,34 +14,63 @@ struct InventoryView: View {
 
     var body: some View {
         NavigationView {
-            List {
-                ForEach(purchases) { item in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(item.name)
-                                .font(.headline)
-                            Text("Category: \(item.category)")
-                                .font(.subheadline)
-                            Text("Days Left: \(item.runoutDays)")
-                                .font(.caption)
-                            Text("Running Low: \(item.isRunningLow ? "Yes" : "No")")
-                                .foregroundColor(item.isRunningLow ? .red : .green)
-                                .font(.caption)
-                            
-                        }
-                        Spacer()
-                        Text("Qty: \(item.quantity)")
+            if purchases.isEmpty {
+                VStack(spacing: 16) {
+                    Image(systemName: "cart.badge.plus")
+                        .resizable()
+                        .frame(width: 130, height: 100)
+                        .foregroundColor(.gray)
+                    
+                    Text("No items in your inventory.")
+                        .font(.title2)
+                        .foregroundColor(.secondary)
+                    
+                    NavigationLink(destination: AddPurchaseView()) {
+                        Text("Add Your First Item")
+                            .padding()
+                            .background(Color.mint)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
                     }
                 }
-                .onDelete(perform: deletePurchase) // Swipe to delete
-            }
-            .navigationTitle("Inventory")
-            .toolbar {
-                NavigationLink(destination: AddPurchaseView()) {
-                    Text("Add Item")
+                .padding()
+            } else {
+                List {
+                    ForEach(purchases) { item in
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(item.name)
+                                    .font(.headline)
+                                Text("Category: \(item.category)")
+                                    .font(.subheadline)
+                                Text("Days Left: \(item.runoutDays)")
+                                    .font(.caption)
+                                Text("Running Low: \(item.isRunningLow ? "Yes" : "No")")
+                                    .foregroundColor(item.isRunningLow ? .red : .green)
+                                    .font(.caption)
+                                
+                            }
+                            Spacer()
+                            Text("Qty: \(item.quantity)")
+                        }
+                    }
+                    .onDelete(perform: deletePurchase) // Swipe to delete
+                }
+                .navigationTitle("Inventory")
+                .toolbar {
+                    NavigationLink(destination: AddPurchaseView()) {
+                        Text("Add Item")
+                    }
                 }
             }
         }
+        
+        .onAppear {
+            if let csvURL = exportToCSV(purchases: purchases) {
+                ModelSyncManager.uploadCSVAndDownloadModel(csvURL: csvURL)
+            }
+        }
+
     }
 
     func deletePurchase(at offsets: IndexSet) {

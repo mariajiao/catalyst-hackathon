@@ -13,32 +13,50 @@ struct ShoppingListView: View {
 
     var body: some View {
         NavigationView {
-            List {
-                ForEach(purchases.filter { $0.isRunningLow }) { item in
-                    HStack {
-                        Button(action: {
-                            togglePurchased(for: item)
-                        }) {
-                            Image(systemName: item.isPurchased ? "checkmark.square.fill" : "square")
-                                .foregroundColor(item.isPurchased ? .mint : .primary)
-                        }
-                        .buttonStyle(PlainButtonStyle())
-
-                        VStack(alignment: .leading) {
-                            Text(item.name)
-                                .font(.headline)
-                                .strikethrough(item.isPurchased, color: .gray)
-
-                            Text("Qty: \(item.quantity)")
-                                .foregroundColor(.secondary)
-                        }
-
-                        Spacer()
-                    }
-                    .padding(.vertical, 4)
+            if(purchases.filter { $0.isRunningLow }.isEmpty)
+            {
+                VStack(spacing: 16) {
+                    Image(systemName: "face.smiling")
+                        .resizable()
+                        .frame(width: 100, height: 100)
+                        .foregroundColor(.gray)
+                    
+                    Text("You are all clear. No shopping needed today!")
+                        .font(.title2)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                    
                 }
+                .padding()
             }
-            .navigationTitle("Shopping List")
+            else {
+                List {
+                    ForEach(purchases.filter { $0.isRunningLow }) { item in
+                        HStack {
+                            Button(action: {
+                                togglePurchased(for: item)
+                            }) {
+                                Image(systemName: item.isPurchased ? "checkmark.square.fill" : "square")
+                                    .foregroundColor(item.isPurchased ? .mint : .primary)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                            
+                            VStack(alignment: .leading) {
+                                Text(item.name)
+                                    .font(.headline)
+                                    .strikethrough(item.isPurchased, color: .gray)
+                                
+                                Text("Qty: \(item.quantity)")
+                                    .foregroundColor(.secondary)
+                            }
+                            
+                            Spacer()
+                        }
+                        .padding(.vertical, 4)
+                    }
+                }
+                .navigationTitle("Shopping List")
+            }
         }
     }
     
