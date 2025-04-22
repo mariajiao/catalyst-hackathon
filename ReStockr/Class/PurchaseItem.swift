@@ -36,7 +36,8 @@ class PurchaseItem {
 
     // Check if item is running low
     var isRunningLow: Bool {
-        Date()+2 >= estimatedDepletionDate
+        let twoDaysFromNow = Calendar.current.date(byAdding: .day, value: 2, to: Date())!
+        return twoDaysFromNow >= estimatedDepletionDate
         
     }
     
@@ -49,5 +50,32 @@ class PurchaseItem {
             return 0
         }
             
+    }
+}
+
+
+func exportToCSV(purchases: [PurchaseItem]) -> URL? {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd"
+
+    let header = "name,category,purchaseDate,estimatedUsageDays,quantity,isPurchased\n"
+    let rows = purchases.map { item in
+        let date = formatter.string(from: item.purchaseDate)
+        return "\"\(item.name)\",\"\(item.category)\",\(date),\(item.estimatedUsageDays),\(item.quantity),\(item.isPurchased)"
+    }
+
+    let csvString = header + rows.joined(separator: "\n")
+
+    // Save to the app's Documents directory
+    let fileName = "purchase_history.csv"
+    let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
+
+    do {
+        try csvString.write(to: fileURL, atomically: true, encoding: .utf8)
+        print("success! CSV file saved at: \(fileURL.path)")
+        return fileURL
+    } catch {
+        print("aw snap! failed to write CSV: \(error)")
+        return nil
     }
 }

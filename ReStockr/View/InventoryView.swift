@@ -42,6 +42,13 @@ struct InventoryView: View {
                 }
             }
         }
+        
+        .onAppear {
+            if let csvURL = exportToCSV(purchases: purchases) {
+                ModelSyncManager.uploadCSVAndDownloadModel(csvURL: csvURL)
+            }
+        }
+
     }
 
     func deletePurchase(at offsets: IndexSet) {
